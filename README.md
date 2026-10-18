@@ -1,4 +1,4 @@
-# cli-convention
+# CLI Convention
 
 Conventions for command-line tools in the Tertium projects, as used by [gf](https://github.com/Tertiumnon/gf). This repo is documentation only.
 
