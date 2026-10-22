@@ -1,4 +1,21 @@
 type: conventions
+slug: cli-convention
 language: Markdown
-publish_on:
+listed_on:
   - https://tertiumnon.github.io
+display_name:
+  en: "CLI Convention"
+summary:
+  en: "CLI conventions for Tertium tools: commands, short and long flags, one- and two-dash meaning, errors and output."
+languages:
+  - en
+default_language: en
+audience:
+  - developers
+entry_point: README.md
+team:
+  - name: Vitalii Balabanov
+    roles:
+      - owner
+      - maintainer
+    github: Tertiumnon
