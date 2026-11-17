@@ -2,47 +2,43 @@
 
 CLI conventions for Tertium tools: commands, short and long flags, one- and two-dash meaning, errors and output.
 
-Conventions for command-line tools in the Tertium projects, as used by [gith](https://github.com/Tertiumnon/tertium-gith). This repo is documentation only.
+Conventions for command-line tools in the Tertium projects. This repo is documentation only; individual tools may need updates to follow these rules.
 
 ## Commands
 
 - A command is one lowercase word: `create`, `merge`, `release`.
-- Commands take flags, not positional options: `gith create -r 1.2.0`, not `gith create release 1.2.0`.
-- `help` and `--help` show usage. `-h` is never help, because it is often a flag.
+- Commands take flags, not positional options: `gith create --release=1.2.0`, not `gith create release 1.2.0`.
+- `help` is a command, not a flag. Use `<tool> help` for general usage and `<tool> help <command>` for a command's usage. For nested commands, give the full command path after `help`.
 
 ## Flags
 
-Every flag has a long name. A flag may also have a short name, one letter, for the common ones.
-
-Both forms work, with one or two dashes:
-
-- `-b`, `-branch`, `--branch`
+Every flag has a descriptive name. A switch may also have a one-letter alias for common use.
 
 The dash count sets how the flag takes its value:
 
 | Form | Meaning |
 | --- | --- |
-| `-x <value>`, `-name <value>` | takes an explicit value |
-| `--name` | switch, or auto: no value; the tool picks one |
-| `--name <value>` | an error, because the switch takes no value |
+| `-name` | Switch or automatic selection; takes no value. |
+| `--name=<value>` | Option with an explicit value; the equals sign and value are required when the option is supplied. |
+| `--name`, `--name <value>` | Invalid: an option requires `=<value>`. |
 
-Flags that always need a value (such as a branch name) take one in both forms.
+An option can itself be optional or required by a command; either way, it needs a value when supplied. A switch and an option may share a name when the command supports both automatic and explicit selection.
 
-Examples from gith:
+Examples of the convention:
 
 ```bash
-gith create -r 1.2.0       # explicit version
-gith create --release      # version picked from the latest tag
-gith create -b login       # branch name, same as -branch login or --branch login
-gith release --patch       # switch; -patch is the same
+gith create --release=1.2.0  # explicit version
+gith create -release         # version picked from the latest tag
+gith create --branch=login   # explicit branch name
+gith release -patch          # switch
 ```
 
-Each command takes one of a set of mutually exclusive flags. Giving two is an error.
+When flags are mutually exclusive, giving more than one is an error.
 
 ## Errors
 
 - Print one line starting with `❌`, then exit with code 1.
-- Name the bad input, and where it helps, show the valid form: `-hotfix needs a value.`
+- Name the bad input, and where it helps, show the valid form: `--branch needs a value; use --branch=<name>.`
 - A missing required flag prints the usage line for that command, not the whole help text.
 - Never print a stack trace for an input mistake.
 
